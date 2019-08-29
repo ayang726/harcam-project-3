@@ -1,0 +1,14 @@
+.search-bar {
+    margin: 1em 0;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+form{
+    flex:1 1;
+    width: 100%;
+}
+
+#search-topic-input,#search-word-input{
+    width: 100%;
+}

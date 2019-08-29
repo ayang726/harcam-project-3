@@ -1,0 +1,20 @@
+.word-list {
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    height: 70vh;
+    overflow: scroll;
+}
+
+.word-list ul{
+    list-style: none;
+    padding:5px 0;
+    margin: 0;
+}
+
+.word-list ul li{
+    border-radius: 10px;
+}
+.word-list ul li:hover{
+    background: salmon;
+    font-weight: 600;
+}

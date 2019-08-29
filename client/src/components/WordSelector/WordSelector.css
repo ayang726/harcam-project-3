@@ -1,0 +1,42 @@
+.word-selector {
+    position: relative;
+    height: 70vh;
+    background: #eee;
+    border-radius: 5px;
+    border: 1px black solid;
+    overflow: scroll;
+}
+
+.word{
+    padding: 0 0.5em;
+    display:inline-block;
+    min-height: 50px;
+    line-height: 50px;
+    min-width: 100px;
+    width: 50px;
+    white-space: nowrap;
+    width: fit-content;
+    background: lightgreen;
+    border-radius: 10px;
+    
+}
+
+.word:hover{
+    z-index: 10;
+    animation: grow 1s linear both;
+}
+
+.chosen-word{
+    min-height: 70px;
+    line-height: 70px;
+    min-width: 130px;
+    background: salmon
+}
+
+.ml{background-color: lightblue}
+.rel_syn{background-color: lightcoral}
+.rel_trg{background-color: lightgoldenrodyellow}
+.rel_jja{background-color: lightgrey}
+.rel_jjb{background-color: lightslategray}
+.rel_gen{background-color: lightgreen}
+.rel_com{background-color: lightpink}

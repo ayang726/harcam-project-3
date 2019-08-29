@@ -1,0 +1,8 @@
+.build-btn {
+    margin: 1em 0;
+    width: 100%;
+}
+
+.disable-link{
+    pointer-events: none
+}
