@@ -2,17 +2,21 @@ import axios from "axios"
 
 
 export default {
-    updateWordList: function (id, body) {
-        return axios.put("/api/word-list/" + id, body)
+    updateWordCloud: function (id, body) {
+        return axios.put("/api/word-cloud/" + id, body)
     },
 
-    createWordList: function (body) {
-        return axios.post("/api/word-list/", body)
+    createWordCloud: function (body) {
+        return axios.post("/api/word-cloud/", body)
     },
 
-    getWordList: function (id) {
-        return axios.get("/api/word-list/" + id)
+    getWordClouds: function (userId) {
+        return axios.get("/api/word-cloud/all/" + userId)
     },
+
+    getWordCloudById: function (wcid) {
+        return axios.get(`/api/word-cloud/${wcid}`)
+    }
 
     // buildWordCloud: function (wordList) {
     //     return axios.post("/api/word-cloud/create", wordList)

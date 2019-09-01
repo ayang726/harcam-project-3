@@ -1,30 +1,41 @@
 import React, { Component } from "react";
-import { Navbar, Sidebar, Searchbar, WordSelector } from "../"
+import { Sidebar, Searchbar, WordSelector, Title } from "../"
 import "./WCG.css"
 import axios from "axios"
 import API from "../../js/API"
-import { useAuth0 } from "../../js/react-auth0-wrapper";
+import { Auth0Context } from "../../js/react-auth0-wrapper";
+
 
 const minWordsCount = 10;
 const maxWordSize = 100000;
 class WordCloudGenerator extends Component {
-
+    // use APP.js for all props data
     state = {
         buildBtnDisabled: true,
         searchWord: "",
         searchTopic: "",
         relatedWords: {},
         selectedWords: [],
-        currentWordCloudID: ""
+        title: ""
     }
-
-    // initializing document
     componentDidMount() {
-        let body = {
-            title: "wordlist",
-            wordList: this.state.wordList
+        // console.log("did mount");
+        this.props.loadWcList(this.props.currentWCID);
+    }
+    componentDidUpdate(prevProps) {
+        // console.log("did update");
+        // console.log(prevProps);
+
+        if (this.props.currentWCID && (prevProps.currentWCID !== this.props.currentWCID || this.state.title === "")) {
+            API.getWordCloudById(this.props.currentWCID)
+                .then(response => {
+                    const { title, words } = response.data;
+                    this.setState({
+                        title,
+                        selectedWords: words
+                    })
+                })
         }
-        API.createWordList(body)
     }
 
     searchBarUpdate = (e) => {
@@ -57,8 +68,6 @@ class WordCloudGenerator extends Component {
     }
 
     wordSearch = async (word, topic) => {
-        // add the new work" to word list
-        // console.log(word + " " + topic);
 
         let results = {}
         this.setState({ relatedWords: results })
@@ -68,7 +77,7 @@ class WordCloudGenerator extends Component {
             if (topic)
                 queryString += `&topic=${topic}`;
             const url = `https://api.datamuse.com/words?${queryString}&max=10&md=f`;
-            console.log(url);
+            // console.log(url);
 
             let response = await axios.get(url)
             let list = response.data
@@ -91,29 +100,64 @@ class WordCloudGenerator extends Component {
             this.setState({ buildBtnDisabled: true })
     }
 
+
+    titleOnChange = (e) => {
+        const { value } = e.target;
+        this.setState({ title: value })
+    }
+
     // build word cloud
     buildWordCloud = (e) => {
-        // console.log("message-201")
-        // const wordList = this.state.selectedWords.map(word => { return { text: word, value: Math.floor(Math.random() * maxWordSize) } })
-        // console.log(wordList);
-        this.saveWordListToDB();
+        this.saveWordListToDB()
+    }
+
+    createNewWC = async () => {
+
+        let userId = this.props.userId;
+        let title = "New WorldCloud";
+
+        let body = {
+            userId,
+            title,
+            wordList: this.state.selectedWords
+        };
+
+        const response = await API.createWordCloud(body)
+        // console.log(response);
+
+        const wcID = response.data._id
+        this.setState({
+            searchWord: "",
+            searchTopic: "",
+            relatedWords: {},
+            selectedWords: [],
+        })
+        this.props.setCurrentWC("New WordCloud");
+        this.props.setCurrentWCID(wcID);
+        this.props.loadWcList();
     }
 
     saveWordListToDB = () => {
-        let id = "5d56f783d2ef6a609a7eab84"
-        let body = {
-            words: this.state.selectedWords
-        }
-        API.updateWordList(id, body)
+        if (this.state.title === "")
+            return alert("Title cannot be empty")
+        let id = this.props.currentWCID
+        this.props.setCurrentWC(this.state.title)
+        if (id) {
+            let body = {
+                title: this.state.title,
+                words: this.state.selectedWords
+            }
+            API.updateWordCloud(id, body).then(response => {
+                this.props.loadWcList(id);
+            })
+        } else console.log("no wordcloud created");
+
     }
 
     render() {
-        const { user } = useAuth0()
-        console.log(user);
-
         return (
             <div>
-                < div className="row" >
+                <div className="row" >
                     <div className="col-lg-3">
                         <Sidebar
                             buildBtnDisabled={this.state.buildBtnDisabled}
@@ -121,9 +165,19 @@ class WordCloudGenerator extends Component {
                             wordHighlight={this.wordSearch}
                             deleteSelectedWord={this.deleteSelectedWord}
                             submitBuild={this.buildWordCloud}
-                            saveBtn={this.saveWordListToDB} />
+                            saveWC={this.saveWordListToDB}
+                            createNewWC={this.createNewWC}
+                        />
                     </div>
                     <div className="col-lg-9">
+                        <div className="row">
+                            <div className="col-lg-12">
+                                <Title
+                                    value={this.state.title}
+                                    onChange={this.titleOnChange}
+                                />
+                            </div>
+                        </div>
                         <div className="row">
                             <div className="col-lg-12">
                                 <Searchbar
@@ -149,5 +203,5 @@ class WordCloudGenerator extends Component {
         );
     }
 }
-
+WordCloudGenerator.contextType = Auth0Context
 export default WordCloudGenerator;

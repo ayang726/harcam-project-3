@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const wordList = require("./wordList");
+const wordCloud = require("./wordCloud");
 
 // Book routes
-router.use("/word-list", wordList);
+router.use("/word-cloud", wordCloud);
 
 module.exports = router;

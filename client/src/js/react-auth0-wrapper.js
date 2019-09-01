@@ -19,6 +19,7 @@ export const Auth0Provider = ({
     const [popupOpen, setPopupOpen] = useState(false);
 
     useEffect(() => {
+
         const initAuth0 = async () => {
             const auth0FromHook = await createAuth0Client(initOptions);
             setAuth0(auth0FromHook);
@@ -36,6 +37,7 @@ export const Auth0Provider = ({
                 const user = await auth0FromHook.getUser();
                 setUser(user);
             }
+
 
             setLoading(false);
         };

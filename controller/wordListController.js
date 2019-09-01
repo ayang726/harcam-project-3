@@ -3,6 +3,8 @@ const db = require("../models");
 // Defining methods for the booksController
 module.exports = {
     findAllByUser: function (req, res) {
+        console.log(req.params.userId);
+
         db.WordList
             .find({ userId: req.params.userId })
             .then(dbModel => res.json(dbModel))
