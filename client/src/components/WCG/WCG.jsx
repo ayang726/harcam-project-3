@@ -113,6 +113,7 @@ class WordCloudGenerator extends Component {
     // build word cloud
     buildWordCloud = (e) => {
         this.saveWordListToDB()
+        this.props.history.push('/wordCloud')
     }
 
     createNewWC = async () => {

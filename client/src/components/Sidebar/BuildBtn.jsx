@@ -10,8 +10,8 @@ export default function (props) {
         linkClasses += "disable-link"
     }
     return (
-        <Link to={"/wordCloud"} className={linkClasses}>
-            <button className={btnClasses} onClick={props.submitBuild}>Build it</button>
-        </Link>
+        // <Link to={"/wordCloud"} className={linkClasses}>
+        <button className={btnClasses} onClick={props.submitBuild}>Build it</button>
+        // </Link>
     );
 }

@@ -42,21 +42,6 @@ export default class WordCloudDisplay extends Component {
         })
     }
 
-    sizeDown = (e) => {
-        const index = e.target.parentElement.parentElement.getAttribute("index")
-        // console.log(index)
-        const wordList = this.state.wordList
-        wordList[index].value -= 1000
-        this.setState({ wordList })
-    }
-    sizeUp = (e) => {
-        const index = e.target.parentElement.parentElement.getAttribute("index")
-        // console.log(index)
-        const wordList = this.state.wordList
-        wordList[index].value += 1000
-        this.setState({ wordList })
-    }
-
     render() {
         const fontSizeMapper = word => Math.log2(word.value) * 5;
         const rotate = function () { return ~~(Math.random() * 2) * 30; };
