@@ -78,10 +78,14 @@ class WordCloudGenerator extends Component {
                 queryString += `&topic=${topic}`;
             const url = `https://api.datamuse.com/words?${queryString}&max=10&md=f`;
             // console.log(url);
-
-            let response = await axios.get(url)
-            let list = response.data
-            results[param] = list.map(object => object.word)
+            try {
+                let response = await axios.get(url)
+                let list = response.data
+                results[param] = list.map(object => object.word)
+            } catch (e) {
+                console.log("There's an error querying datamuse:");
+                console.log(e);
+            }
         }
 
         this.setState({ relatedWords: results })
