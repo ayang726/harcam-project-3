@@ -4,10 +4,13 @@ import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { Auth0Provider } from "./js/react-auth0-wrapper";
-import config from "./auth_config.json";
+import prod_config from "./auth_config.json";
+import dev_config from "./auth_config_dev.json"
 
+let config = dev_config
 console.log("Logging from React app: " + process.env.NODE_ENV);
-
+if (process.env.NODE_ENV === "production")
+    config = prod_config;
 
 const onRedirectCallback = appState => {
     window.history.replaceState(
