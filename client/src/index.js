@@ -9,6 +9,8 @@ import dev_config from "./auth_config_dev.json"
 
 let config = dev_config
 console.log("Logging from React app: " + process.env.NODE_ENV);
+console.log('window origin is: ' + window.location.origin);
+
 if (process.env.NODE_ENV === "production")
     config = prod_config;
 
