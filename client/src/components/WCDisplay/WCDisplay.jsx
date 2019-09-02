@@ -3,7 +3,7 @@ import ReactCloud from "react-d3-cloud";
 import API from "../../js/API"
 import "./WCDisplay.css"
 
-const wordSizeScale = 20;
+const wordSizeScale = 10;
 const wordSizeOffset = 5;
 export default class WordCloudDisplay extends Component {
 
