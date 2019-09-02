@@ -25,7 +25,7 @@ function App() {
     userId = userSub.substring(userSub.indexOf("|") + 1)
   }
 
-  const loadWcList = (selectedId) => {
+  const loadWcList = (selectedId, fn) => {
     API.getWordClouds(userId)
       .then(response => {
         // console.log(response.data.length > 0);
@@ -44,6 +44,8 @@ function App() {
           // console.log(selectedWC.title);
           // console.log(selectedWC);
         }
+        if (fn)
+          fn();
       })
       .catch(e => { console.log(e) })
   }

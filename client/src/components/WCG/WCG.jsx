@@ -112,8 +112,8 @@ class WordCloudGenerator extends Component {
 
     // build word cloud
     buildWordCloud = (e) => {
-        this.saveWordListToDB()
-        this.props.history.push('/wordCloud')
+        this.saveWordListToDB(() => this.props.history.push('/wordCloud'))
+
     }
 
     createNewWC = async () => {
@@ -142,7 +142,7 @@ class WordCloudGenerator extends Component {
         this.props.loadWcList();
     }
 
-    saveWordListToDB = () => {
+    saveWordListToDB = (fn) => {
         if (this.state.title === "")
             return alert("Title cannot be empty")
         let id = this.props.currentWCID
@@ -153,7 +153,7 @@ class WordCloudGenerator extends Component {
                 words: this.state.selectedWords
             }
             API.updateWordCloud(id, body).then(response => {
-                this.props.loadWcList(id);
+                this.props.loadWcList(id, fn);
             })
         } else console.log("no wordcloud created");
 

@@ -15,6 +15,8 @@ export default class WordCloudDisplay extends Component {
         if (!this.props.currentWCID) {
             this.props.loadWcList();
         }
+        // console.log("component mounted");
+
         this.drawWordCloud()
     }
 
@@ -25,13 +27,15 @@ export default class WordCloudDisplay extends Component {
     }
 
     drawWordCloud = () => {
+        console.log("draw function called");
+
         const id = this.props.currentWCID
         const promise = API.getWordCloudById(id)
         promise.then(response => {
-            let wordList = response.data.words;
+            let words = response.data.words;
             // console.log(wordList);
 
-            wordList = wordList.map(word => {
+            let wordList = words.map(word => {
                 const size = Math.floor(Math.exp(wordSizeScale * Math.random()) * wordSizeOffset);
                 // console.log(word);
                 // console.log(size);
