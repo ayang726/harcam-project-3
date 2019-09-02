@@ -6,6 +6,9 @@ import registerServiceWorker from "./registerServiceWorker";
 import { Auth0Provider } from "./js/react-auth0-wrapper";
 import config from "./auth_config.json";
 
+console.log("Logging from React app: " + process.env.NODE_ENV);
+
+
 const onRedirectCallback = appState => {
     window.history.replaceState(
         {},
